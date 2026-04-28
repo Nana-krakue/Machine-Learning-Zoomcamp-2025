@@ -1,0 +1,165 @@
+# 📘 Module 4: Evaluation Metrics for Classification
+
+## 🧠 Overview
+
+In this module, I learned how to properly evaluate classification models.
+Accuracy alone is not enough, especially for imbalanced datasets.
+
+---
+
+## 📊 Confusion Matrix
+
+The confusion matrix helps break down predictions:
+
+|                 | Predicted Positive  | Predicted Negative  |
+| --------------- | ------------------- | ------------------- |
+| Actual Positive | True Positive (TP)  | False Negative (FN) |
+| Actual Negative | False Positive (FP) | True Negative (TN)  |
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import confusion_matrix
+
+y_true = [1, 0, 1, 1, 0, 1]
+y_pred = [1, 0, 0, 1, 0, 1]
+
+cm = confusion_matrix(y_true, y_pred)
+print(cm)
+```
+
+---
+
+## 📏 Evaluation Metrics
+
+### 1. Accuracy
+
+Measures overall correctness:
+
+Accuracy = (TP + TN) / Total
+
+⚠️ Not reliable for imbalanced data.
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import accuracy_score
+
+accuracy = accuracy_score(y_true, y_pred)
+print("Accuracy:", accuracy)
+```
+
+---
+
+### 2. Precision
+
+Out of all predicted positives, how many were correct:
+
+Precision = TP / (TP + FP)
+
+Use when false positives are costly.
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import precision_score
+
+precision = precision_score(y_true, y_pred)
+print("Precision:", precision)
+```
+
+---
+
+### 3. Recall
+
+Out of all actual positives, how many were detected:
+
+Recall = TP / (TP + FN)
+
+Use when missing positives is dangerous.
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import recall_score
+
+recall = recall_score(y_true, y_pred)
+print("Recall:", recall)
+```
+
+---
+
+### 4. F1 Score
+
+Balances precision and recall:
+
+F1 = 2 * (Precision * Recall) / (Precision + Recall)
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import f1_score
+
+f1 = f1_score(y_true, y_pred)
+print("F1 Score:", f1)
+```
+
+---
+
+## 📈 ROC Curve and AUC
+
+* ROC shows the trade-off between True Positive Rate and False Positive Rate
+* AUC measures how well the model separates classes
+
+### 🧪 Code Example
+
+```python
+from sklearn.metrics import roc_curve, roc_auc_score
+import matplotlib.pyplot as plt
+
+# probabilities instead of class labels
+y_scores = [0.9, 0.2, 0.4, 0.8, 0.1, 0.7]
+
+fpr, tpr, thresholds = roc_curve(y_true, y_scores)
+auc = roc_auc_score(y_true, y_scores)
+
+plt.plot(fpr, tpr)
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.show()
+
+print("AUC:", auc)
+```
+
+---
+
+## ⚙️ Threshold Tuning
+
+Changing the threshold affects predictions.
+
+### 🧪 Code Example
+
+```python
+import numpy as np
+
+threshold = 0.5
+y_pred_custom = (np.array(y_scores) >= threshold).astype(int)
+
+print(y_pred_custom)
+```
+
+---
+
+## ⚠️ Things I Learned to Avoid
+
+* Using only accuracy
+* Ignoring class imbalance
+* Data leakage
+
+---
+
+## 💡 Key Takeaway
+
+The best evaluation metric depends on the problem.
+A model is only as good as how you evaluate it.
